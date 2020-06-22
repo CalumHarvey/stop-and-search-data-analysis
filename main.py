@@ -39,12 +39,25 @@ def main():
     df = readFile()
     cleanDF = cleanData(df)
 
-    totalData = cleanDF[cleanDF['Geography'] == "All - including BTP"]
+    temp = cleanDF[["Time", "Ethnicity", "Geography", "Rate_per_1000_population_by_ethnicity"]]
+
+    totalData = temp[temp['Geography'] == "All - including BTP"]
+
+
+    meanData = totalData.groupby("Ethnicity").mean()
+
+    meanDataSorted = meanData.sort_values("Rate_per_1000_population_by_ethnicity", ascending=False)
+
+    print(meanDataSorted)
+
 
     #print(totalData)
+    """
 
     index = totalData["Ethnicity"]
-    index.drop_duplicates(inplace=True)
+    totalData.drop_duplicates(inplace=True)
+    print(totalData)
+
 
     year1 = totalData[totalData['Time'].isin(["2006/07"])]
     year2 = totalData[totalData["Time"] == "2007/08"]
@@ -59,6 +72,7 @@ def main():
     year11 = totalData[totalData["Time"] == "2016/17"]
     year12 = totalData[totalData["Time"] == "2017/18"]
     print(year3)
+    """
 
 
     #df = pd.DataFrame({"2006/7" : year1, "2007/8" : year2, "2008/9" : year3, "2009/10" : year4, "2010/11" : year5, "2011/12" : year6, "2012/13" : year7,
